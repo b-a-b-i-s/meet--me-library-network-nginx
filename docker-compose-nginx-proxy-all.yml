@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  reverse:
+    restart: always
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx-all.conf:/etc/nginx/conf.d/default.conf
+      - ./meet--me/nginx.conf:/etc/nginx/conf.d/nginx-meet--me.conf
+      - ./library-network/nginx.conf:/etc/nginx/conf.d/nginx-library-network.conf
+      - ./meet--me/public:/www/meet--me.babis-skeparnakos.com
+      - ./library-network/src/public:/www/library-network.babis-skeparnakos.com
+      - /etc/cloudflare/live/babis-skeparnakos.com/fullchain.pem:/etc/cloudflare/live/babis-skeparnakos.com/fullchain.pem:ro
+      - /etc/cloudflare/live/babis-skeparnakos.com/privkey.pem:/etc/cloudflare/live/babis-skeparnakos.com/privkey.pem:ro
+    extra_hosts:
+      - host.docker.internal:host-gateway
